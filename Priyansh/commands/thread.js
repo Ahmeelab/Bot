@@ -1,7 +1,7 @@
 module.exports.config = {
 	name: "thread",
 	version: "1.0.5",
-	hasPermssion: 3,
+	hasPermssion: 2,
 	credits: "SHANKAR",
 	description: "SHANKAR BOT",
 	commandCategory: "system",
