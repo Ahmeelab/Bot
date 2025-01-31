@@ -22,28 +22,33 @@ module.exports.run = async function ({ api, event, args }) {
     const userName = event.mentions[mention].replace("@", "");
 
     // Frame Settings
-    const frameImage = "https://imgur.com/a/MKuyt1P.png"; // Replace with your frame image URL
+    const frameImage = "https://imgur.com/a/kACzUq5.png"; // Replace with your frame image URL
     const canvas = createCanvas(500, 500);
     const ctx = canvas.getContext("2d");
 
-    // Load Frame & Add Text
-    const frame = await loadImage(frameImage);
-    ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+    try {
+        // Load Frame & Add Text
+        const frame = await loadImage(frameImage);
+        ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
 
-    // Add Text (User ID)
-    ctx.font = "bold 30px Arial";
-    ctx.fillStyle = "#ffffff";
-    ctx.textAlign = "center";
-    ctx.fillText(`User ID: ${mention}`, canvas.width / 2, 450);
+        // Add Text (User ID)
+        ctx.font = "bold 30px Arial";
+        ctx.fillStyle = "#ffffff";
+        ctx.textAlign = "center";
+        ctx.fillText(`User ID: ${mention}`, canvas.width / 2, 450);
 
-    // Save Image
-    const imagePath = `./temp/frame_${mention}.png`;
-    const buffer = canvas.toBuffer("image/png");
-    fs.writeFileSync(imagePath, buffer);
+        // Save Image
+        const imagePath = `./temp/frame_${mention}.png`;
+        const buffer = canvas.toBuffer("image/png");
+        fs.writeFileSync(imagePath, buffer);
 
-    // Send Image
-    api.sendMessage({
-        body: `🌟 Here is the frame for ${userName}:`,
-        attachment: fs.createReadStream(imagePath)
-    }, event.threadID, () => fs.unlinkSync(imagePath));
+        // Send Image
+        api.sendMessage({
+            body: `🌟 Here is the frame for ${userName}:`,
+            attachment: fs.createReadStream(imagePath)
+        }, event.threadID, () => fs.unlinkSync(imagePath));
+    } catch (err) {
+        console.error("Error generating frame:", err);
+        api.sendMessage("⚠️ Something went wrong while generating the frame. Please try again later.", event.threadID);
+    }
 };
