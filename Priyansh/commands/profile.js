@@ -1,7 +1,7 @@
 module.exports.config = {
         name: "profile",
         version: "1.0.0",
-        hasPermssion: 0,
+        hasPermssion: 2,
         credits: "ARIF BABU",
         description: "THIS BOT IS MADE BY ARIF BABU",
         commandCategory: "PROFILE DP",
@@ -36,7 +36,7 @@ var name = res.data.result.name
 var data = await api.getUserInfoV2(res_ID);
     var username = data.username
     var link = data.link
-    var callback = () => api.sendMessage({body:`💞 ये लो आपका प्रोफाइल डी पी 💞`, attachment: fs.createReadStream(__dirname + "/cache/1.png")}, event.threadID,
+    var callback = () => api.sendMessage({body:`💞 YE LO BOSS APKI PIC 💞`, attachment: fs.createReadStream(__dirname + "/cache/1.png")}, event.threadID,
         () => fs.unlinkSync(__dirname + "/cache/1.png"),event.messageID); 
     return request(encodeURI(`https://graph.facebook.com/${res_ID}/picture?height=1500&width=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`)).pipe(fs.createWriteStream(__dirname+'/cache/1.png')).on('close',
         () => callback()); }
