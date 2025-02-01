@@ -22,7 +22,7 @@ module.exports.run = async function ({ api, event }) {
     const mention = Object.keys(event.mentions)[0];
     const userName = event.mentions[mention].replace("@", "");
 
-    const frameImageURL = "https://imgur.com/a/kACzUq5.png"; // ✅ Replace with PNG/JPG image
+    const frameImageURL = "https://imgur.com/iF24qyn.png"; // ✅ Replace with PNG/JPG image
     const canvasSize = 500;
     const canvas = createCanvas(canvasSize, canvasSize);
     const ctx = canvas.getContext("2d");
