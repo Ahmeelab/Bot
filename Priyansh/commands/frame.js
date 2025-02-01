@@ -1,66 +1,34 @@
-const { createCanvas, loadImage } = require("canvas");
-const fs = require("fs");
-const path = require("path");
+import jimp from "https://esm.sh/jimp@0.16.1";
 
-module.exports.config = {
-    name: "frame",
-    version: "1.0.0",
-    hasPermission: 0,
-    credits: "Your Name",
-    description: "Mentioned user ki ID ek pyare frame me show kare",
-    commandCategory: "fun",
-    usages: ".frame @mention",
-    cooldowns: 5
-};
-
-module.exports.run = async function ({ api, event, args }) {
+export default async function generateFrame(api, event) {
     if (!event.mentions || Object.keys(event.mentions).length === 0) {
         return api.sendMessage("⚠️ Please mention a user!", event.threadID);
     }
 
-    // Get mentioned user ID & name
     const mention = Object.keys(event.mentions)[0];
     const userName = event.mentions[mention].replace("@", "");
 
-    // ✅ **Replace this with your frame image URL**
-    const frameImageURL = "https://imgur.com/a/kACzUq5.png"; // Replace with actual image link
-
-    // ✅ **Set canvas size (should match frame size)**
-    const canvasSize = 500;
-    const canvas = createCanvas(canvasSize, canvasSize);
-    const ctx = canvas.getContext("2d");
+    const frameURL = "https://imgur.com/a/kACzUq5.png"; // Replace with your frame
+    const imagePath = `./temp/frame_${mention}.png`;
 
     try {
-        console.log("🔄 Loading frame image...");
-        const frame = await loadImage(frameImageURL);
-        ctx.drawImage(frame, 0, 0, canvasSize, canvasSize);
+        console.log("🔄 Downloading frame...");
+        const frame = await jimp.read(frameURL);
 
-        // ✅ **Add Text (User ID)**
-        ctx.font = "bold 30px Arial";
-        ctx.fillStyle = "#ffffff";
-        ctx.textAlign = "center";
-        ctx.fillText(`User ID: ${mention}`, canvasSize / 2, 450);
+        console.log("📝 Adding text...");
+        const font = await jimp.loadFont(jimp.FONT_SANS_32_WHITE);
+        frame.print(font, 50, 450, `User ID: ${mention}`);
 
-        // ✅ **Save Image**
-        const tempDir = "./temp";
-        if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
+        console.log("💾 Saving image...");
+        await frame.writeAsync(imagePath);
 
-        const imagePath = path.join(tempDir, `frame_${mention}.png`);
-        const buffer = canvas.toBuffer("image/png");
-        fs.writeFileSync(imagePath, buffer);
-
-        console.log("✅ Frame image created successfully!");
-
-        // ✅ **Send Image to Chat**
         api.sendMessage({
             body: `🌟 Here is the frame for ${userName}:`,
             attachment: fs.createReadStream(imagePath)
-        }, event.threadID, () => {
-            fs.unlinkSync(imagePath); // Delete temp file after sending
-        });
+        }, event.threadID, () => fs.unlinkSync(imagePath));
 
     } catch (err) {
-        console.error("❌ Error generating the frame:", err);
-        api.sendMessage("⚠️ An error occurred while generating the frame. Please try again later.", event.threadID);
+        console.error("❌ Error:", err);
+        api.sendMessage("⚠️ An error occurred while generating the frame.", event.threadID);
     }
-};
+}
