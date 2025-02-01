@@ -13,35 +13,34 @@ module.exports.config = {
     cooldowns: 5
 };
 
-module.exports.run = async function ({ api, event, args }) {
+module.exports.run = async function ({ api, event }) {
     if (!event.mentions || Object.keys(event.mentions).length === 0) {
         return api.sendMessage("⚠️ Please mention a user!", event.threadID);
     }
 
-    // Get mentioned user ID & name
     const mention = Object.keys(event.mentions)[0];
     const userName = event.mentions[mention].replace("@", "");
 
-    // ✅ **Replace this with your frame image URL**
-    const frameImageURL = "https://imgur.com/a/kACzUq5.jpg"; // Replace with actual image link
-
-    // ✅ **Set canvas size (should match frame size)**
+    const frameImageURL = "https://imgur.com/a/kACzUq5.png"; // ✅ Replace with PNG image
     const canvasSize = 500;
     const canvas = createCanvas(canvasSize, canvasSize);
     const ctx = canvas.getContext("2d");
 
     try {
-        console.log("🔄 Loading frame image...");
+        console.log("🔄 Downloading frame...");
+        
+        // ✅ Fix: Convert Image to PNG Format Before Using
         const frame = await loadImage(frameImageURL);
+        
         ctx.drawImage(frame, 0, 0, canvasSize, canvasSize);
 
-        // ✅ **Add Text (User ID)**
+        // ✅ Add Text
         ctx.font = "bold 30px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.textAlign = "center";
         ctx.fillText(`User ID: ${mention}`, canvasSize / 2, 450);
 
-        // ✅ **Save Image**
+        // ✅ Save Image
         const tempDir = "./temp";
         if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
 
@@ -51,16 +50,16 @@ module.exports.run = async function ({ api, event, args }) {
 
         console.log("✅ Frame image created successfully!");
 
-        // ✅ **Send Image to Chat**
+        // ✅ Send Image to Chat
         api.sendMessage({
             body: `🌟 Here is the frame for ${userName}:`,
             attachment: fs.createReadStream(imagePath)
         }, event.threadID, () => {
-            fs.unlinkSync(imagePath); // Delete temp file after sending
+            fs.unlinkSync(imagePath);
         });
 
     } catch (err) {
         console.error("❌ Error generating the frame:", err);
-        api.sendMessage("⚠️ An error occurred while generating the frame. Please try again later.", event.threadID);
+        api.sendMessage(`⚠️ Error: ${err.message}`, event.threadID);
     }
 };
