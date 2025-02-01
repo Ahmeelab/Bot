@@ -1,6 +1,7 @@
 const { createCanvas, loadImage } = require("canvas");
 const fs = require("fs");
 const path = require("path");
+const axios = require("axios");
 
 module.exports.config = {
     name: "frame",
@@ -21,17 +22,27 @@ module.exports.run = async function ({ api, event }) {
     const mention = Object.keys(event.mentions)[0];
     const userName = event.mentions[mention].replace("@", "");
 
-    const frameImageURL = "https://imgur.com/a/kACzUq5.png"; // ✅ Replace with PNG image
+    const frameImageURL = "https://imgur.com/a/kACzUq5.png"; // ✅ Replace with PNG/JPG image
     const canvasSize = 500;
     const canvas = createCanvas(canvasSize, canvasSize);
     const ctx = canvas.getContext("2d");
 
+    const tempDir = "./temp";
+    if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
+
+    const framePath = path.join(tempDir, "frame.png");
+    const imagePath = path.join(tempDir, `frame_${mention}.png`);
+
     try {
-        console.log("🔄 Downloading frame...");
-        
-        // ✅ Fix: Convert Image to PNG Format Before Using
-        const frame = await loadImage(frameImageURL);
-        
+        console.log("🔄 Downloading frame image...");
+        const response = await axios({
+            url: frameImageURL,
+            responseType: "arraybuffer",
+        });
+        fs.writeFileSync(framePath, Buffer.from(response.data));
+
+        console.log("🖼️ Loading image into canvas...");
+        const frame = await loadImage(framePath);
         ctx.drawImage(frame, 0, 0, canvasSize, canvasSize);
 
         // ✅ Add Text
@@ -41,10 +52,6 @@ module.exports.run = async function ({ api, event }) {
         ctx.fillText(`User ID: ${mention}`, canvasSize / 2, 450);
 
         // ✅ Save Image
-        const tempDir = "./temp";
-        if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
-
-        const imagePath = path.join(tempDir, `frame_${mention}.png`);
         const buffer = canvas.toBuffer("image/png");
         fs.writeFileSync(imagePath, buffer);
 
@@ -56,6 +63,7 @@ module.exports.run = async function ({ api, event }) {
             attachment: fs.createReadStream(imagePath)
         }, event.threadID, () => {
             fs.unlinkSync(imagePath);
+            fs.unlinkSync(framePath);
         });
 
     } catch (err) {
