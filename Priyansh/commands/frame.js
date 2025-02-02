@@ -5,7 +5,7 @@ const axios = require("axios");
 
 module.exports.config = {
     name: "frame",
-    version: "1.0.0",
+    version: "1.0.2",
     hasPermission: 0,
     credits: "Your Name",
     description: "Mentioned user ki ID ek pyare frame me show kare",
@@ -22,12 +22,12 @@ module.exports.run = async function ({ api, event }) {
     const mention = Object.keys(event.mentions)[0];
     const userName = event.mentions[mention].replace("@", "");
 
-    // ✅ Frame aur Profile Picture Links
+    // ✅ Frame aur Profile Picture URLs
     const frameImageURL = "https://i.imgur.com/iF24qyn.png"; // ✅ Frame Image
-    const profilePicURL = `https://graph.facebook.com/${mention}/picture?width=200&height=200`; // ✅ User Profile Picture
+    const profilePicURL = `https://graph.facebook.com/${mention}/picture?width=500&height=500`; // ✅ User Profile Picture
 
-    const canvasSize = 500;
-    const canvas = createCanvas(canvasSize, canvasSize);
+    const canvasWidth = 500, canvasHeight = 500;
+    const canvas = createCanvas(canvasWidth, canvasHeight);
     const ctx = canvas.getContext("2d");
 
     const tempDir = "./temp";
@@ -50,15 +50,19 @@ module.exports.run = async function ({ api, event }) {
         const frame = await loadImage(framePath);
         const profilePic = await loadImage(profilePath);
 
-        ctx.drawImage(frame, 0, 0, canvasSize, canvasSize);
+        // ✅ Frame Image Draw
+        ctx.drawImage(frame, 0, 0, canvasWidth, canvasHeight);
 
-        // ✅ Add Profile Picture in Center Circle
-        const circleX = 250, circleY = 180, radius = 80;
+        // ✅ Proper Alignment for Profile Picture
+        const circleX = 250, circleY = 175, radius = 75;
+        
         ctx.save();
         ctx.beginPath();
         ctx.arc(circleX, circleY, radius, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.clip();
+        
+        // ✅ Ensure Profile Picture is Properly Fitted
         ctx.drawImage(profilePic, circleX - radius, circleY - radius, radius * 2, radius * 2);
         ctx.restore();
 
@@ -66,7 +70,7 @@ module.exports.run = async function ({ api, event }) {
         ctx.font = "bold 30px Arial";
         ctx.fillStyle = "#ffffff";
         ctx.textAlign = "center";
-        ctx.fillText(`User ID: ${mention}`, canvasSize / 2, 450);
+        ctx.fillText(`User ID: ${mention}`, canvasWidth / 2, 450);
 
         // ✅ Save Image
         const buffer = canvas.toBuffer("image/png");
