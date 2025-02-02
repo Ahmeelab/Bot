@@ -5,10 +5,10 @@ const axios = require("axios");
 
 module.exports.config = {
     name: "frame",
-    version: "1.0.4",
+    version: "1.0.5",
     hasPermission: 0,
     credits: "Your Name",
-    description: "Mentioned user ki ID ek pyare frame me show kare",
+    description: "Mentioned user ki DP ko frame me fit kare",
     commandCategory: "fun",
     usages: ".frame @mention",
     cooldowns: 5
@@ -23,7 +23,7 @@ module.exports.run = async function ({ api, event }) {
     const userName = event.mentions[mention].replace("@", "");
 
     // ✅ Frame aur Profile Picture URLs
-    const frameImageURL = "https://i.imgur.com/iF24qyn.jpeg"; // ✅ Frame Image
+    const frameImageURL = "https://i.imgur.com/iF24qyn.png"; // ✅ Frame Image
     const profilePicURL = `https://graph.facebook.com/${mention}/picture?width=500&height=500`; // ✅ User Profile Picture
     const defaultAvatar = "https://i.imgur.com/Nz2ACiw.png"; // ✅ Default avatar if profile pic fails
 
@@ -34,7 +34,7 @@ module.exports.run = async function ({ api, event }) {
     const tempDir = "./temp";
     if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
 
-    const framePath = path.join(tempDir, "frame.jpeg");
+    const framePath = path.join(tempDir, "frame.png");
     const profilePath = path.join(tempDir, `${mention}_profile.png`);
     const finalImagePath = path.join(tempDir, `frame_${mention}.png`);
 
