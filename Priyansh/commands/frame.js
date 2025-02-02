@@ -5,7 +5,7 @@ const axios = require("axios");
 
 module.exports.config = {
     name: "frame",
-    version: "1.0.2",
+    version: "1.0.4",
     hasPermission: 0,
     credits: "Your Name",
     description: "Mentioned user ki ID ek pyare frame me show kare",
@@ -23,8 +23,9 @@ module.exports.run = async function ({ api, event }) {
     const userName = event.mentions[mention].replace("@", "");
 
     // ✅ Frame aur Profile Picture URLs
-    const frameImageURL = "https://i.imgur.com/iF24qyn.png"; // ✅ Frame Image
+    const frameImageURL = "https://i.imgur.com/iF24qyn.jpeg"; // ✅ Frame Image
     const profilePicURL = `https://graph.facebook.com/${mention}/picture?width=500&height=500`; // ✅ User Profile Picture
+    const defaultAvatar = "https://i.imgur.com/Nz2ACiw.png"; // ✅ Default avatar if profile pic fails
 
     const canvasWidth = 500, canvasHeight = 500;
     const canvas = createCanvas(canvasWidth, canvasHeight);
@@ -43,8 +44,17 @@ module.exports.run = async function ({ api, event }) {
         fs.writeFileSync(framePath, Buffer.from(frameResponse.data));
 
         console.log("🔄 Downloading profile picture...");
-        const profileResponse = await axios({ url: profilePicURL, responseType: "arraybuffer" });
-        fs.writeFileSync(profilePath, Buffer.from(profileResponse.data));
+        let profilePicData;
+        try {
+            const profileResponse = await axios({ url: profilePicURL, responseType: "arraybuffer" });
+            profilePicData = profileResponse.data;
+        } catch (error) {
+            console.warn("⚠️ Profile picture not available, using default avatar.");
+            const defaultResponse = await axios({ url: defaultAvatar, responseType: "arraybuffer" });
+            profilePicData = defaultResponse.data;
+        }
+
+        fs.writeFileSync(profilePath, Buffer.from(profilePicData));
 
         console.log("🖼️ Loading images into canvas...");
         const frame = await loadImage(framePath);
@@ -53,16 +63,16 @@ module.exports.run = async function ({ api, event }) {
         // ✅ Frame Image Draw
         ctx.drawImage(frame, 0, 0, canvasWidth, canvasHeight);
 
-        // ✅ Proper Alignment for Profile Picture
-        const circleX = 250, circleY = 175, radius = 75;
-        
+        // ✅ Proper Centering for Profile Picture
+        const circleX = 250, circleY = 230, radius = 85; // Adjusted for perfect center
+
         ctx.save();
         ctx.beginPath();
         ctx.arc(circleX, circleY, radius, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.clip();
-        
-        // ✅ Ensure Profile Picture is Properly Fitted
+
+        // ✅ Ensure Profile Picture fits perfectly in the frame's circle
         ctx.drawImage(profilePic, circleX - radius, circleY - radius, radius * 2, radius * 2);
         ctx.restore();
 
