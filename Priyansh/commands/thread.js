@@ -1,9 +1,9 @@
-module.exports.config = {
+ module.exports.config = {
 	name: "thread",
 	version: "1.0.5",
 	hasPermssion: 2,
-	credits: "SHANKAR",
-	description: "SHANKAR BOT",
+	credits: "Priyansh Rajput",
+	description: "Ban or unban a group",
 	commandCategory: "system",
 	usages: "[unban/ban/search] [ID or text]",
 	cooldowns: 5,
@@ -18,21 +18,21 @@ module.exports.languages = {
 		"at": "vào lúc",
 		"allCommand": "toàn bộ lệnh",
 		"commandList": "những lệnh",
-		"banSuccess": "[ Ban Thread ] Đã xử lý thành công yêu cầu cấm nhóm có ID %1",
-		"unbanSuccess": "[ Unban Thread ] Đã xử lý thành công yêu cầu gỡ cấm nhóm có ID %1",
-		"banCommandSuccess": "[ banCommand Thread ] Đã xử lý thành công yêu cầu cấm lệnh đối với nhóm có ID %1",
-		"unbanCommandSuccess": "[ UnbanCommand Thread ] Đã xử lý thành công yêu cầu gỡ cấm %1 đối với nhóm có ID %2",
+		"banSuccess": "[☠️ 𝐁𝐚𝐧 𝐓𝐡𝐫𝐞𝐚𝐝 ☠️] - 𝐗𝐮̛̉ 𝐥𝐲́ 𝐭𝐡𝐚̀𝐧𝐡 𝐜𝐨̂𝐧𝐠 𝐲𝐞̂𝐮 𝐜𝐚̂̀𝐮 𝐜𝐚̂́𝐦 𝐧𝐡𝐨́𝐦 𝐜𝐨́ 𝐈𝐃 %1",
+		"unbanSuccess": "[🌸 𝐔𝐧𝐛𝐚𝐧 𝐓𝐡𝐫𝐞𝐚𝐝 🌸] - 𝐗𝐮̛̉ 𝐥𝐲́ 𝐭𝐡𝐚̀𝐧𝐡 𝐜𝐨̂𝐧𝐠 𝐲𝐞̂𝐮 𝐜𝐚̂̀𝐮 𝐠𝐨̛̃ 𝐜𝐚̂́𝐦 𝐧𝐡𝐨́𝐦 𝐜𝐨́ 𝐈𝐃 %1",
+		"banCommandSuccess": "[📌 𝐁𝐚𝐧𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐓𝐡𝐫𝐞𝐚𝐝 🚨] - 𝐗𝐮̛̉ 𝐥𝐲́ 𝐭𝐡𝐚̀𝐧𝐡 𝐜𝐨̂𝐧𝐠 𝐲𝐞̂𝐮 𝐜𝐚̂̀𝐮 𝐜𝐚̂́𝐦 𝐥𝐞̣̂𝐧𝐡 𝐯𝐨̛́𝐢 𝐧𝐡𝐨́𝐦 𝐜𝐨́ 𝐈𝐃 %1",
+		"unbanCommandSuccess": "[💎 𝐔𝐧𝐛𝐚𝐧𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐓𝐡𝐫𝐞𝐚𝐝 🌸] - 𝐗𝐮̛̉ 𝐥𝐲́ 𝐭𝐡𝐚̀𝐧𝐡 𝐜𝐨̂𝐧𝐠 𝐲𝐞̂𝐮 𝐜𝐚̂̀𝐮 𝐠𝐨̛̃ 𝐜𝐚̂́𝐦 %1 𝐫𝐢𝐞̂𝐧𝐠 𝐯𝐨̛́𝐢 𝐧𝐡𝐨́𝐦 𝐜𝐨́ 𝐈𝐃 %2",
 		"errorReponse": "%1 Không thể hoàn tất công việc bạn yêu cầu đối với nhóm có ID %2",
 		"IDNotFound": "%1 ID bạn nhập không tồn tại trong cơ sở dữ liệu",
-		"existBan": "[ Ban Thread ] ID %1 đã bị ban từ trước %2 %3",
-		"notExistBan": "[ Unban Thread ] ID bạn nhập chưa từng bị cấm sử dụng bot",
+		"existBan": "[💸 𝐁𝐚𝐧 𝐓𝐡𝐫𝐞𝐚𝐝 💸] - 𝐈𝐃 %1 𝐡𝐢𝐞̣̂𝐧 𝐯𝐚̂̃𝐧 𝐛𝐢̣ 𝐛𝐚𝐧 𝐭𝐮̛̀ 𝐭𝐫𝐮̛𝐨̛́𝐜 %2 %3",
+		"notExistBan": "[🚨 𝐔𝐧𝐛𝐚𝐧 𝐓𝐡𝐫𝐞𝐚𝐝 🚨] - 𝐈𝐃 𝐛𝐚̣𝐧 𝐧𝐡𝐚̣̂𝐩 𝐜𝐡𝐮̛𝐚 𝐭𝐮̛̀𝐧𝐠 𝐛𝐢̣ 𝐜𝐚̂́𝐦 𝐬𝐮̛̉ 𝐝𝐮̣𝐧𝐠 𝐛𝐨𝐭",
 		"missingCommandInput": "%1 Phần command cần cấm không được để trống!",
-		"notExistBanCommand": "[ UnbanCommand Thread ] Hiện tại ID nhóm bạn nhập chưa từng bị cấm sử dụng lệnh",
+		"notExistBanCommand": "[🧬 𝐔𝐧𝐛𝐚𝐧𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐓𝐡𝐫𝐞𝐚𝐝 🧬] - 𝐇𝐢𝐞̣̂𝐧 𝐭𝐚̣𝐢 𝐈𝐃 𝐧𝐡𝐨́𝐦 𝐛𝐚̣𝐧 𝐧𝐡𝐚̣̂𝐩 𝐜𝐡𝐮̛𝐚 𝐭𝐮̛̀𝐧𝐠 𝐛𝐢̣ 𝐜𝐚̂́𝐦 𝐬𝐮̛̉ 𝐝𝐮̣𝐧𝐠 𝐥𝐞̣̂𝐧𝐡",
 
-		"returnBan": "[ Ban Thread ] Hiện tại bạn đang yêu cầu cấm nhóm:\n- ID nhóm cần cấm: %1%2\n\n❮ Reaction tin nhắn này để xác thực ❯",
-		"returnUnban": "[ Unban Thread ] Hiện tại bạn đang yêu cầu gỡ cấm nhóm:\n- ID nhóm cần gỡ cấm: %1\n\n❮ Reaction tin nhắn này để xác thực ❯",
-		"returnBanCommand": "[ banCommand Thread ] Hiện tại bạn đang yêu cầu cấm sử dụng lệnh đối với nhóm:\n - ID nhóm cần cấm: %1\n- Các lệnh cần cấm: %2\n\n❮ Reaction tin nhắn này để xác thực ❯",
-		"returnUnbanCommand": "[ UnbanCommand Thread ] Hiện tại bạn đang yêu cầu gỡ cấm sử dụng lệnh đối với nhóm:\n - ID nhóm cần gỡ cấm lệnh: %1\n- Các lệnh cần gỡ cấm: %2\n\n❮ Reaction tin nhắn này để xác thực ❯",
+		"returnBan": "[📌 𝐁𝐚𝐧 𝐓𝐡𝐫𝐞𝐚𝐝 💌] - 𝐇𝐢𝐞̣̂𝐧 𝐭𝐚̣𝐢 𝐛𝐚̣𝐧 𝐯𝐮̛̀𝐚 𝐲𝐞̂𝐮 𝐜𝐚̂̀𝐮 𝐜𝐡𝐨 𝐧𝐡𝐨́𝐦 𝐧𝐚̀𝐲 𝐯𝐞̂̀ 𝐜𝐚́𝐭 𝐛𝐮̣𝐢:\n❯ 𝐈𝐃 𝐧𝐡𝐨́𝐦 𝐜𝐚̂̀𝐧 𝐜𝐚̂́𝐦: %1%2\n\n❮💸 𝐑𝐞𝐚𝐜𝐭𝐢𝐨𝐧 𝐭𝐢𝐧 𝐧𝐡𝐚̆́𝐧 𝐧𝐚̀𝐲 𝐧𝐞̂́𝐮 𝐱𝐚́𝐜 𝐧𝐡𝐚̣̂𝐧 𝐜𝐚̂́𝐦 🌸❯",
+		"returnUnban": "[ 𝐔𝐧𝐛𝐚𝐧 𝐓𝐡𝐫𝐞𝐚𝐝 ] - 𝐇𝐢𝐞̣̂𝐧 𝐭𝐚̣𝐢 𝐛𝐚̣𝐧 𝐯𝐮̛̀𝐚 𝐲𝐞̂𝐮 𝐜𝐚̂̀𝐮 𝐜𝐡𝐨 𝐧𝐡𝐨́𝐦 𝐧𝐚̀𝐲 𝐦𝐨̣̂𝐭 𝐚̂𝐧 𝐡𝐮𝐞̣̂ 𝐯𝐞̂̀ 𝐡𝐨𝐚̀ 𝐧𝐡𝐚̣̂𝐩 𝐯𝐨̛́𝐢 𝐱𝐚̃ 𝐡𝐨̣̂𝐢:\n❯ 𝐈𝐃 𝐧𝐡𝐨́𝐦 𝐜𝐚̂̀𝐧 𝐠𝐨̛̃ 𝐜𝐚̂́𝐦: %1\n\n❮💌 𝐑𝐞𝐚𝐜𝐭𝐢𝐨𝐧 𝐭𝐢𝐧 𝐧𝐡𝐚̆́𝐧 𝐧𝐚̀𝐲 𝐧𝐞̂́𝐮 𝐱𝐚́𝐜 𝐧𝐡𝐚̣̂𝐧 𝐠𝐨̛̃ 𝐜𝐚̂́𝐦 💎❯",
+		"returnBanCommand": "[ 𝐁𝐚𝐧𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐓𝐡𝐫𝐞𝐚𝐝 ] - Hiện tại bạn đang yêu cầu cấm sử dụng lệnh đối với nhóm:\n - ID nhóm cần cấm: %1\n- Các lệnh cần cấm: %2\n\n❮ Reaction tin nhắn này để xác thực ❯",
+		"returnUnbanCommand": "[ 𝐔𝐧𝐛𝐚𝐧𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐓𝐡𝐫𝐞𝐚𝐝 ] - Hiện tại bạn đang yêu cầu gỡ cấm sử dụng lệnh đối với nhóm:\n - ID nhóm cần gỡ cấm lệnh: %1\n- Các lệnh cần gỡ cấm: %2\n\n❮ Reaction tin nhắn này để xác thực ❯",
 	
 		"returnResult": "Đây là kết quả phù hợp: \n",
 		"returnNull": "Không tìm thấy kết quả dựa vào tìm kiếm của bạn!",
@@ -73,7 +73,7 @@ module.exports.handleReaction = async ({ event, api, Threads, handleReaction, ge
 	const { threadID } = event;
 	const { messageID, type, targetID, reason, commandNeedBan } = handleReaction;
 	
-	const time = moment.tz("Asia/Ho_Chi_minh").format("HH:MM:ss L");
+	const time = moment.tz("Asia/Kolkata").format("HH:MM:ss L");
 	global.client.handleReaction.splice(global.client.handleReaction.findIndex(item => item.messageID == messageID), 1);
 
 	switch (type) {
@@ -269,4 +269,4 @@ module.exports.run = async ({ event, api, args, Threads, getText }) => {
 			return api.sendMessage(getText("returnInfo", targetID, ((!dateAdded) ? "YES" : "NO"), ((reason) ? `${getText("reason")}: "${reason}"` : ""), ((dateAdded) ? `${getText("at")}: ${dateAdded}` : ""), ((commandBanned) ? `YES: ${commandBanned.join(", ")}` : "NO")), threadID, messageID);
 		}
 	}
-					}
+				}
