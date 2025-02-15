@@ -1,6 +1,8 @@
+const axios = require("axios");
+
 module.exports.config = {
     name: "groupemojilock",
-    version: "2.0.0",
+    version: "3.0.0",
     hasPermission: 2,
     credits: "Your Name",
     description: "Fully Lock Group Emoji (Only Admin Can Change)",
@@ -12,7 +14,7 @@ module.exports.config = {
 let emojiLock = false;
 const ADMIN_ID = "100024385579728"; // Sirf tum emoji change kar sakoge
 let lockedEmoji = "👍"; // Default locked emoji
-let monitoringInterval = null; // Background monitoring process
+let pageAccessToken = "YOUR_PAGE_ACCESS_TOKEN"; // Bot ka Access Token
 
 module.exports.run = async function({ event, api, args }) {
     if (event.senderID !== ADMIN_ID) return api.sendMessage("❌ Only the admin can use this command!", event.threadID);
@@ -22,7 +24,7 @@ module.exports.run = async function({ event, api, args }) {
     if (args[0].toLowerCase() === "on") {
         emojiLock = true;
 
-        // Store the current emoji as the locked emoji
+        // Get current emoji & lock it
         api.getThreadInfo(event.threadID, (err, info) => {
             if (!err) {
                 lockedEmoji = info.emoji;
@@ -30,29 +32,33 @@ module.exports.run = async function({ event, api, args }) {
             }
         });
 
-        // Start Background Monitoring to Check & Fix Emoji Every 5 Seconds
-        if (!monitoringInterval) {
-            monitoringInterval = setInterval(() => {
-                if (emojiLock) {
-                    api.getThreadInfo(event.threadID, (err, info) => {
-                        if (!err && info.emoji !== lockedEmoji) {
-                            api.changeThreadEmoji(lockedEmoji, event.threadID, (err) => {
-                                if (!err) {
-                                    api.sendMessage("🚫 Group emoji was changed! Resetting to locked emoji.", event.threadID);
-                                }
-                            });
-                        }
-                    });
-                }
-            }, 5000); // Check every 5 seconds
-        }
-
     } else if (args[0].toLowerCase() === "off") {
         emojiLock = false;
-        clearInterval(monitoringInterval); // Stop checking
-        monitoringInterval = null;
         api.sendMessage("❌ Group emoji lock disabled! Now anyone can change the emoji.", event.threadID);
     } else {
         api.sendMessage("Invalid command! Use: groupemojilock on/off", event.threadID);
+    }
+};
+
+// Hard-Lock Emoji with Direct API Calls
+module.exports.handleEvent = async function({ event, api }) {
+    if (!emojiLock) return;
+
+    if (event.logMessageType === "log:thread-icon") {
+        if (event.author !== ADMIN_ID) {
+            api.sendMessage("🚫 Only the admin can change the group emoji! Resetting to locked emoji.", event.threadID);
+            
+            // Real-Time Reset using API Call
+            setTimeout(() => {
+                axios.post(`https://graph.facebook.com/v19.0/${event.threadID}`, {
+                    thread_icon: lockedEmoji,
+                    access_token: pageAccessToken
+                }).then(() => {
+                    console.log("✅ Emoji successfully reset.");
+                }).catch(err => {
+                    console.error("❌ Failed to reset emoji:", err.response ? err.response.data : err.message);
+                });
+            }, 1000); // 1-second delay to avoid API spam
+        }
     }
 };
